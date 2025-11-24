@@ -1,10 +1,14 @@
-import React from "react";
-import { getAuth, signOut } from "firebase/auth";
+import React, { useEffect } from "react";
+import { getAuth, signOut, onAuthStateChanged } from "firebase/auth";
 import { useNavigate } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import { addUser, removeUser } from "../utils/userSlice.js";
+import { NETFLIX_LOGO_URL } from "../utils/constants.js";
+import { DEFAULT_USER_ICON_URL } from "../utils/constants.js";
 
 const Header = () => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const user = useSelector((state) => state.user);
   const handleSignOut = () => {
     const auth = getAuth();
@@ -17,18 +21,35 @@ const Header = () => {
         navigate("/error");
       });
   };
+  useEffect(() => {
+    const auth = getAuth();
+    const unsubscribe =onAuthStateChanged(auth, (user) => {
+      if (user) {
+        // https://firebase.google.com/docs/reference/js/auth.user
+        const { uid, email, displayName } = user;
+        console.log("user", user);
+        dispatch(addUser({ uid: uid, email: email, displayName: displayName }));
+        navigate("/browse");
+      } else {
+        // User is signed out
+        dispatch(removeUser());
+        navigate("/");
+      }
+    });
+    return () => unsubscribe();
+  }, []);
   return (
     <div className="absolute bg-gradient-to-b from-black to-transparent p-4 z-50 w-full flex justify-between items-center">
       <img
         className="w-50 h-20"
         alt="Netflix logo"
-        src="https://help.nflxext.com/helpcenter/OneTrust/oneTrust_production_2025-08-26/consent/87b6a5c0-0104-4e96-a291-092c11350111/0198e689-25fa-7d64-bb49-0f7e75f898d2/logos/dd6b162f-1a32-456a-9cfe-897231c7763c/4345ea78-053c-46d2-b11e-09adaef973dc/Netflix_Logo_PMS.png"
+        src={NETFLIX_LOGO_URL}
       />
       {user.displayName && (
         <div className="flex gap-4">
           <img
             alt="user-icon"
-            src="https://wallpapers.com/images/hd/netflix-profile-pictures-1000-x-1000-qo9h82134t9nv0j0.jpg"
+            src={DEFAULT_USER_ICON_URL}
             className="w-8 h-8"
           />
           <button onClick={handleSignOut} className="text-white">

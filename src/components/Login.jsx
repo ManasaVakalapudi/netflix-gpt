@@ -7,10 +7,8 @@ import {
   signInWithEmailAndPassword,
   updateProfile,
 } from "firebase/auth";
-import { useNavigate } from "react-router-dom";
 
 const Login = () => {
-  const navigate = useNavigate();
   const [isSignUp, setIsSignUp] = useState(false);
   const [validateMessage, setValidateMessage] = useState("");
   const [showPassword, setShowPassword] = useState(false);
@@ -46,9 +44,7 @@ const Login = () => {
             console.log("User signed up:", user);
             updateProfile(user, {
               displayName: name.current.value,
-            }).then(() => {
-              navigate("/browse");
-            });
+            })
             setValidateMessage({
               valid: true,
               message: "User signed up successfully!",
@@ -74,10 +70,8 @@ const Login = () => {
               valid: true,
               message: "User signed in successfully!",
             });
-            navigate("/browse");
           })
           .catch((error) => {
-            const errorCode = error.code;
             const errorMessage = error.message;
             setValidateMessage({ valid: false, message: errorMessage });
           });
