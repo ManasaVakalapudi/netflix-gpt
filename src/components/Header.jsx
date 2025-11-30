@@ -5,6 +5,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { addUser, removeUser } from "../utils/userSlice.js";
 import { NETFLIX_LOGO_URL } from "../utils/constants.js";
 import { DEFAULT_USER_ICON_URL } from "../utils/constants.js";
+import {toggleGptSearchView} from "../utils/gptSearchSlice.js"
 
 const Header = () => {
   const navigate = useNavigate();
@@ -38,6 +39,11 @@ const Header = () => {
     });
     return () => unsubscribe();
   }, []);
+
+  const handleSearchClick = () => {
+    dispatch(toggleGptSearchView())
+  }
+  
   return (
     <div className="absolute bg-gradient-to-b from-black to-transparent p-4 z-50 w-full flex justify-between items-center">
       <img
@@ -47,6 +53,7 @@ const Header = () => {
       />
       {user.displayName && (
         <div className="flex gap-4">
+          <button className="bg-red-600 px-2 text-white my-2 h-8 rounded-lg items-center" onClick={handleSearchClick}>Search</button>
           <img
             alt="user-icon"
             src={DEFAULT_USER_ICON_URL}

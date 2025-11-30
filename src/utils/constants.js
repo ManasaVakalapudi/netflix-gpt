@@ -15,3 +15,7 @@ export const API_OPTIONS = {
       "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIxYmY3YWU4NmRlYjNmZDZmNmE1YjcwNzQ2YTQ5NzQwOCIsIm5iZiI6MTc2Mzg3NjA1MS4wOTMsInN1YiI6IjY5MjI5Y2QzNTc5N2MzZjBmMWRkNDgzYiIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.zLsE7LZlLwLj0IpoO9JVXBRk_9IKIWiZqD8qcu1VWIY",
   },
 };
+
+export const IMG_CDN_URL = 'https://image.tmdb.org/t/p/w500'
+
+export const BACKGROUND_IMG_URL = 'https://assets.nflxext.com/ffe/siteui/vlv3/0b0dad79-ad4d-42b7-b779-8518da389976/web/IN-en-20250908-TRIFECTA-perspective_0647b106-80e1-4d25-9649-63099752b49a_large.jpg';
